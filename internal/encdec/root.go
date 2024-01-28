@@ -1,4 +1,4 @@
-package cmd
+package encdec
 
 import (
 	"github.com/spf13/cobra"
