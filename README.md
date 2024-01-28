@@ -7,10 +7,10 @@ CLI and packages to encrypt / decrypt files.
 ### Install
 
 ```sh
-go install github.com/cassioconti/encdec@latest
+go install github.com/cassioconti/encdec/cmd/encdec@latest
 ```
 
-### Usage
+### Consume
 
 ```sh
 SECRET=abcdefghijklmnopqrstuvwxyz123456
@@ -23,6 +23,14 @@ encdec decrypt test/data/my-test-file.json.enc $SECRET
 ```
 
 ## Package usage
+
+### Import
+
+```sh
+go get -u github.com/cassioconti/encdec/pkg/encdec
+```
+
+### Consume
 
 ```golang
 import "github.com/cassioconti/encdec/pkg/encdec"
