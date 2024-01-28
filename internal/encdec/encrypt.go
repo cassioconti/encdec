@@ -1,15 +1,11 @@
-package cmd
+package encdec
 
 import (
-	"crypto/aes"
-	"crypto/cipher"
-	"crypto/rand"
-	"encoding/base64"
-	"io"
 	"log"
 	"os"
 	"strings"
 
+	"github.com/cassioconti/encdec/pkg/encdec"
 	"github.com/spf13/cobra"
 )
 
@@ -36,7 +32,7 @@ var encryptCmd = &cobra.Command{
 			log.Fatalf("Secret must have at least 32 characters\n")
 		}
 
-		contentEnc, err := encrypt([]byte(secret), content)
+		contentEnc, err := encdec.NewEncoderDecoder().Encrypt(content, secret)
 		if err != nil {
 			log.Fatalf("Failed to encrypt file %s: %v\n", args[0], err)
 		}
@@ -47,22 +43,4 @@ var encryptCmd = &cobra.Command{
 			log.Fatalf("Failed to write file %s: %v\n", outputFileName, err)
 		}
 	},
-}
-
-func encrypt(secret, content []byte) ([]byte, error) {
-	myCipher, err := aes.NewCipher(secret)
-	if err != nil {
-		return nil, err
-	}
-
-	contentB64 := base64.StdEncoding.EncodeToString(content)
-	contentEncrypted := make([]byte, aes.BlockSize+len(contentB64))
-	iv := contentEncrypted[:aes.BlockSize]
-	if _, err := io.ReadFull(rand.Reader, iv); err != nil {
-		return nil, err
-	}
-
-	cfbEnc := cipher.NewCFBEncrypter(myCipher, iv)
-	cfbEnc.XORKeyStream(contentEncrypted[aes.BlockSize:], []byte(contentB64))
-	return contentEncrypted, nil
 }

@@ -1,4 +1,4 @@
-package cmd
+package encdec
 
 import (
 	"fmt"
@@ -15,6 +15,6 @@ var versionCmd = &cobra.Command{
 	Short: "Print the version number of encdec",
 	Long:  `All software has versions. This is encdec's`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("encdec v0.0.1")
+		fmt.Println("encdec v0.0.2")
 	},
 }
